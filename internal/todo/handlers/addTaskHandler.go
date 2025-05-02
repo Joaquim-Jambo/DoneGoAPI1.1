@@ -8,6 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AddTaskHandler godoc
+// @Summary      Cria uma nova tarefa
+// @Description  Adiciona uma nova tarefa à base de dados
+// @Tags         Tarefas
+// @Accept       json
+// @Produce      json
+// @Param        tarefa body models.TodoDTO true "Dados da tarefa"
+// @Success      200 {object} models.ResponseExample
+// @Failure      400 {object} models.ErrorExample "JSON inválido"
+// @Failure      404 {object} models.ErrorExample "Falha ao adicionar tarefa"
+// @Router       /todo [post]
 func AddTaskHandler(ctx *gin.Context) {
 	var newTask models.TodoDTO
 

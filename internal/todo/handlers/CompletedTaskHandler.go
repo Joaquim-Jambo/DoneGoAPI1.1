@@ -8,6 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CompletedTaskHandler godoc
+// @Summary      Marca uma tarefa como concluída
+// @Description  Atualiza o status de uma tarefa para concluída com base no ID
+// @Tags         Tarefas
+// @Produce      json
+// @Param        id path int true "ID da tarefa"
+// @Success      200 {object} models.ResponseExample
+// @Failure      400 {object} models.ErrorExample "ID inválido"
+// @Failure      404 {object} models.ErrorExample "Tarefa não encontrada"
+// @Router       /todo/{id}/completed [patch]
 func CompletedTaskHandler(ctx *gin.Context) {
 	id := ctx.Param("id")
 	id2, errId := strconv.Atoi(id)

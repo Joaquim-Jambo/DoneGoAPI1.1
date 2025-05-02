@@ -9,6 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UpdateTaskHandler godoc
+// @Summary      Atualiza uma tarefa existente
+// @Description  Atualiza os detalhes de uma tarefa com base no ID fornecido
+// @Tags         Tarefas
+// @Accept       json
+// @Produce      json
+// @Param        id path int true "ID da tarefa a ser atualizada"
+// @Param        tarefa body models.TodoUpdateDTO true "Dados da tarefa para atualização"
+// @Success      200 {object} models.ResponseExample
+// @Failure      400 {object} models.ErrorExample "JSON inválido"
+// @Failure      404 {object} models.ErrorExample "Tarefa não encontrada ou falha ao atualizar"
+// @Router       /todo/{id} [put]
 func UpdateTaskHandler(ctx *gin.Context) {
 	id := ctx.Param("id")
 	id2, _ := strconv.Atoi(id)
@@ -18,6 +30,7 @@ func UpdateTaskHandler(ctx *gin.Context) {
 			"data":  nil,
 			"error": "JSON INVALIDO",
 		})
+		return
 	}
 	data, err := repository.UpdateTask(id2, task)
 	if err != nil {
