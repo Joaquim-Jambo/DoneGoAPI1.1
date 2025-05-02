@@ -8,7 +8,7 @@ import (
 func AddTask(task models.TodoDTO) (models.Todo, error) {
 	newTask := models.Todo{
 		Title:       task.Title,
-		Completed:   task.Completed,
+		Completed:   false,
 		Description: task.Description,
 	}
 	err := config.Db.Create(&newTask).Error

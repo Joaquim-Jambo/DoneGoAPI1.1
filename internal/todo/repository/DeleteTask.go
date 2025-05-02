@@ -1,19 +1,19 @@
 package repository
 
 import (
-	"fmt"
-
 	"github.com/Joaquim-Jambo/DoneGoAPI/config"
 	"github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/models"
 )
 
-func DeleteTask(id int) (string, error) {
+func DeleteTask(id int) (models.Todo, error) {
 	var task models.Todo
-	err := config.Db.Delete(&task, id).Error
-	if err != nil {
-		return "", err
+	if err := config.Db.First(&task, id).Error; err != nil {
+		return models.Todo{}, err //
 	}
-	config.Db.First(&task, id)
-	msg := fmt.Sprintf("task %v deletada com sucesso !", task.Title)
-	return msg, nil
+
+	if err := config.Db.Delete(&task).Error; err != nil {
+		return models.Todo{}, err
+	}
+
+	return task, nil
 }
