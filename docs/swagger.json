@@ -1,0 +1,340 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API para gerenciar tarefas e listas de tarefas.",
+        "title": "DoneGoAPI",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Joaquim Jambo",
+            "url": "https://www.linkedin.com/in/joaquimjambo",
+            "email": "joaquimjambo12@gmail.com"
+        },
+        "license": {
+            "name": "Joaquim Jambo",
+            "url": "https://www.linkedin.com/in/joaquimjambo"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/todo": {
+            "get": {
+                "description": "Retorna todas as tarefas da base de dados",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Lista todas as tarefas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ResponseExample"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao listar as tarefas",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adiciona uma nova tarefa à base de dados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Cria uma nova tarefa",
+                "parameters": [
+                    {
+                        "description": "Dados da tarefa",
+                        "name": "tarefa",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TodoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Falha ao adicionar tarefa",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            }
+        },
+        "/todo/completed": {
+            "get": {
+                "description": "Retorna todas as tarefas que foram marcadas como completas",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Lista tarefas completadas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ResponseExample"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao buscar tarefas completadas",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            }
+        },
+        "/todo/{id}": {
+            "get": {
+                "description": "Retorna os detalhes de uma tarefa específica com base no seu ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Busca uma tarefa por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da tarefa a ser buscada",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada!",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza os detalhes de uma tarefa com base no ID fornecido",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Atualiza uma tarefa existente",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da tarefa a ser atualizada",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Dados da tarefa para atualização",
+                        "name": "tarefa",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TodoUpdateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada ou falha ao atualizar",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Exclui uma tarefa com base no ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Remove uma tarefa",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da tarefa",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarefa deletada com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido ou mal formado",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            }
+        },
+        "/todo/{id}/completed": {
+            "patch": {
+                "description": "Atualiza o status de uma tarefa para concluída com base no ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Marca uma tarefa como concluída",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da tarefa",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ErrorExample": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ResponseExample": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TodoDTO": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TodoUpdateDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
