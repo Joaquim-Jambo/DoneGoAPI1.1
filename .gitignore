@@ -1,0 +1,40 @@
+# Binários do Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Pastas de build
+/build/
+bin/
+
+# Módulos do Go (caso queira ignorar o vendor)
+vendor/
+
+# Arquivos temporários e do sistema
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# VSCode e IDEs
+.vscode/
+.idea/
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# Banco de dados
+*.sql
+dump.sql
+/data/
+mysql_data/
+
+# Swagger (se gerado automaticamente)
+docs/swagger.json
+docs/swagger.yaml
