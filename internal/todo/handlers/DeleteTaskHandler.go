@@ -20,17 +20,24 @@ import (
 // @Router       /todo/{id} [delete]
 func DeleteTaskHandler(ctx *gin.Context) {
 	id := ctx.Param("id")
-	id2, _ := strconv.Atoi(id)
+	id2, err1 := strconv.Atoi(id)
+	if err1 != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"data":  nil,
+			"error": "ID inválido ou mal formado",
+		})
+	}
 	data, err := repository.DeleteTask(id2)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
 			"data":  nil,
-			"error": "Falha ao deletar tarefa",
+			"error": "Tarefa não encontrada",
 		})
 		return
 	}
-	ctx.JSON(http.StatusFound, gin.H{
-		"data":  data,
-		"error": nil,
+	ctx.JSON(http.StatusOK, gin.H{
+		"sucess": "Tarefa deletada com sucesso",
+		"data":   data,
+		"error":  nil,
 	})
 }
