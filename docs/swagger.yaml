@@ -1,5 +1,10 @@
 basePath: /api/v1
 definitions:
+  models.CategoriaDTO:
+    properties:
+      nome:
+        type: string
+    type: object
   models.ErrorExample:
     properties:
       error:
@@ -13,6 +18,8 @@ definitions:
     type: object
   models.TodoDTO:
     properties:
+      categoria_id:
+        type: integer
       completed:
         type: boolean
       description:
@@ -22,6 +29,8 @@ definitions:
     type: object
   models.TodoUpdateDTO:
     properties:
+      categoria_id:
+        type: integer
       description:
         type: string
       title:
@@ -41,6 +50,142 @@ info:
   title: DoneGoAPI
   version: "1.0"
 paths:
+  /category:
+    get:
+      description: Retorna todas as categorias da base de dados
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ResponseExample'
+            type: array
+        "500":
+          description: Falha ao listar as categorias
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+      summary: Lista todas as categorias
+      tags:
+      - Categorias
+    post:
+      consumes:
+      - application/json
+      description: Adiciona uma nova categoria à base de dados
+      parameters:
+      - description: Dados da categoria
+        in: body
+        name: categoria
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoriaDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseExample'
+        "400":
+          description: JSON inválido
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+        "404":
+          description: Falha ao adicionar Categoria
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+      summary: Cria uma nova categoria
+      tags:
+      - Categorias
+  /category/{id}:
+    delete:
+      description: Exclui uma categoria com base no ID
+      parameters:
+      - description: ID da categoria
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Categoria deletada com sucesso
+          schema:
+            $ref: '#/definitions/models.ResponseExample'
+        "400":
+          description: ID inválido ou mal formado
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+        "404":
+          description: Categoria não encontrada
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+      summary: Remove uma categoria
+      tags:
+      - Categorias
+    get:
+      description: Retorna os detalhes de uma categoria específica com base no seu
+        ID
+      parameters:
+      - description: ID da categoria a ser buscada
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseExample'
+        "400":
+          description: ID inválido
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+        "404":
+          description: Categoria não encontrada!
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+      summary: Busca uma categoria por ID
+      tags:
+      - Categorias
+    put:
+      consumes:
+      - application/json
+      description: Atualiza os detalhes de uma categoria com base no ID fornecido
+      parameters:
+      - description: ID da categoria a ser atualizada
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados da categoria para atualização
+        in: body
+        name: categoria
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoriaDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseExample'
+        "400":
+          description: JSON inválido
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+        "404":
+          description: Categoria não encontrada ou falha ao atualizar
+          schema:
+            $ref: '#/definitions/models.ErrorExample'
+      summary: Atualiza uma categoria existente
+      tags:
+      - Categorias
   /todo:
     get:
       description: Retorna todas as tarefas da base de dados

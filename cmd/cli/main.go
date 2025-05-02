@@ -25,7 +25,7 @@ import (
 func main() {
 	// Connect to the database
 	config.Connect()
-	config.Db.AutoMigrate(&models.Todo{})
+	config.Db.AutoMigrate(&models.Todo{}, &models.Categoria{})
 	routes.Initialize()
 
 }

@@ -10,6 +10,7 @@ func AddTask(task models.TodoDTO) (models.Todo, error) {
 		Title:       task.Title,
 		Completed:   false,
 		Description: task.Description,
+		CategoriaID: task.CategoriaID,
 	}
 	err := config.Db.Create(&newTask).Error
 	if err != nil {

@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/repository"
+	repository "github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/repository/Task"
 	"github.com/gin-gonic/gin"
 )
 

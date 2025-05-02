@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/repository"
+	repository "github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/repository/Task"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,7 +36,7 @@ func GetByOneTaskHandler(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusFound, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"data":  data,
 		"error": nil,
 	})

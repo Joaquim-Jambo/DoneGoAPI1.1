@@ -18,6 +18,210 @@
     "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
+        "/category": {
+            "get": {
+                "description": "Retorna todas as categorias da base de dados",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Lista todas as categorias",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ResponseExample"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao listar as categorias",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adiciona uma nova categoria à base de dados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Cria uma nova categoria",
+                "parameters": [
+                    {
+                        "description": "Dados da categoria",
+                        "name": "categoria",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CategoriaDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Falha ao adicionar Categoria",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            }
+        },
+        "/category/{id}": {
+            "get": {
+                "description": "Retorna os detalhes de uma categoria específica com base no seu ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Busca uma categoria por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da categoria a ser buscada",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Categoria não encontrada!",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza os detalhes de uma categoria com base no ID fornecido",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Atualiza uma categoria existente",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da categoria a ser atualizada",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Dados da categoria para atualização",
+                        "name": "categoria",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CategoriaDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "JSON inválido",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Categoria não encontrada ou falha ao atualizar",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Exclui uma categoria com base no ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Remove uma categoria",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID da categoria",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoria deletada com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseExample"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido ou mal formado",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    },
+                    "404": {
+                        "description": "Categoria não encontrada",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorExample"
+                        }
+                    }
+                }
+            }
+        },
         "/todo": {
             "get": {
                 "description": "Retorna todas as tarefas da base de dados",
@@ -294,6 +498,14 @@
         }
     },
     "definitions": {
+        "models.CategoriaDTO": {
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ErrorExample": {
             "type": "object",
             "properties": {
@@ -314,6 +526,9 @@
         "models.TodoDTO": {
             "type": "object",
             "properties": {
+                "categoria_id": {
+                    "type": "integer"
+                },
                 "completed": {
                     "type": "boolean"
                 },
@@ -328,6 +543,9 @@
         "models.TodoUpdateDTO": {
             "type": "object",
             "properties": {
+                "categoria_id": {
+                    "type": "integer"
+                },
                 "description": {
                     "type": "string"
                 },

@@ -9,6 +9,8 @@ type Todo struct {
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	Completed   bool      `json:"completed"`
+	CategoriaID uint      `json:"categoria_id"`
+	Categoria   Categoria `json:"categoria"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
@@ -16,6 +18,18 @@ type TodoDTO struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Completed   bool   `json:"completed"`
+	CategoriaID uint   `json:"categoria_id"`
+}
+type CategoriaDTO struct {
+	Nome string `json:"nome"`
+}
+
+type Categoria struct {
+	ID        uint      `json:"id" gorm:"primaryKey"`
+	Nome      string    `json:"nome"`
+	Todos     []Todo    `json:"todos"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // ResponseExample representa uma resposta de sucesso
@@ -32,4 +46,5 @@ type ErrorExample struct {
 type TodoUpdateDTO struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	CategoriaID uint   `json:"categoria_id"`
 }

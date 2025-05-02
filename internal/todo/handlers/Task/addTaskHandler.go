@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/models"
-	"github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/repository"
+	repository "github.com/Joaquim-Jambo/DoneGoAPI/internal/todo/repository/Task"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +15,12 @@ import (
 // @Accept       json
 // @Produce      json
 // @Param        tarefa body models.TodoDTO true "Dados da tarefa"
+// @Properties
+//
+//	completed   {type: boolean, example: false}
+//	description {type: string, example: "Exemplo de descrição"}
+//	title       {type: string, example: "Exemplo de título"}
+//
 // @Success      200 {object} models.ResponseExample
 // @Failure      400 {object} models.ErrorExample "JSON inválido"
 // @Failure      404 {object} models.ErrorExample "Falha ao adicionar tarefa"
@@ -33,6 +39,13 @@ func AddTaskHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"data":  nil,
 			"error": "O campo 'title' é obrigatório",
+		})
+		return
+	}
+	if newTask.CategoriaID == 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"data":  nil,
+			"error": "O campo 'categoria' é obrigatório",
 		})
 		return
 	}
